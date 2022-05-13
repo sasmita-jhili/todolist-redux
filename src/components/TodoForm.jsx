@@ -16,20 +16,10 @@ export const Todolist = () => {
     const value = e.target.value;
     setAddtodo(value);
   };
-
   const onFormSubmit = (e) => {
     e.preventDefault();
-    // const newtodolist = { ...addtodo, id: new Date().getTime().toString() };
     dispatch(addtodoAction(addtodo), setAddtodo(""));
   };
-
-  // const DeleteItem = (index) => {
-  //   setAllTodolist(
-  //     allTodolist.filter((item) => {
-  //       return index !== item.id;
-  //     })
-  //   );
-  // };
   const taskstrikeThrough = (event, index) => {
     if (event.target.checked) {
       setstrikeThrough("strike");
@@ -62,7 +52,6 @@ export const Todolist = () => {
             </form>
             <div className="container">
               {showlistData.map((elem, idx) => {
-                console.log(elem);
                 return (
                   <div className="row align-items-center form-group" key={idx}>
                     <input

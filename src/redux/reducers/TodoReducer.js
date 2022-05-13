@@ -4,7 +4,6 @@ export const TodoReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD_TO_DO":
       const { id, tododata } = action.payload;
-
       return {
         ...state,
         listData: [
