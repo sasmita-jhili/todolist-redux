@@ -1,99 +1,91 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import { MdDelete } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { addtodoAction, deleteTodo } from "../redux/action/todoAction";
 
-export const TodoForm = () => {
+export const Todolist = () => {
+  const dispatch = useDispatch();
+  const showlistData = useSelector((state) => state.TodoReducer.listData);
+  console.log(showlistData);
+  const [addtodo, setAddtodo] = useState("");
 
-    const [addtodo, setAddtodo] = useState({
-        title: '',
-        note: ''
-    })
-    // const [inputData, setInputData] = useState({
-    //     edittitle: '',
-    //     editnote: ''
-    // })
-    const [allTodolist, setAllTodolist] = useState([])
+  const [strikeThrough, setstrikeThrough] = useState([]);
+  const [taskDone, setTaskDone] = useState(false);
 
-    const handleInput = (e) => {
-        const value = e.target.value
-        const name = e.target.name
-        setAddtodo({ ...addtodo, [name]: value })
+  const handleInput = (e) => {
+    const value = e.target.value;
+    setAddtodo(value);
+  };
 
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    // const newtodolist = { ...addtodo, id: new Date().getTime().toString() };
+    dispatch(addtodoAction(addtodo), setAddtodo(""));
+  };
+
+  // const DeleteItem = (index) => {
+  //   setAllTodolist(
+  //     allTodolist.filter((item) => {
+  //       return index !== item.id;
+  //     })
+  //   );
+  // };
+  const taskstrikeThrough = (event, index) => {
+    if (event.target.checked) {
+      setstrikeThrough("strike");
+      setTaskDone(true);
+    } else {
+      setstrikeThrough(" ");
+      setTaskDone(false);
     }
-
-    const onFormSubmit = (e) => {
-        e.preventDefault()
-        const newtodolist = { ...addtodo, id: new Date().getTime().toString(), }
-
-        setAllTodolist([...allTodolist, newtodolist])
-        // setInputData('')
-        // console.log();
-        setAddtodo({ title: '', note: '' })
-    }
-    const EditItem = (id) => {
-        let newEdititem = allTodolist.find((elem) => {
-            return elem.id === id
-        })
-        // const { title, note } = newEdititem
-        console.log(newEdititem.title);
-        // console.log(newEdititem.newtodolist.title, newEdititem.newtodolist.note);
-        // setAddtodo(newEdititem.title = addtodo.title, newEdititem.note = addtodo.note)
-    }
-
-    const DeleteItem = (index) => {
-        setAllTodolist(allTodolist.filter((item) => {
-            return index !== item.id
-        }))
-    }
-    return (
-        <div className="container">
-            <div className='row'>
-                <div className='col-8 todolist_app'>
-                    <div className="header">
-                        <h2 className="text-muted">TODO List</h2>
-                        <hr />
-                    </div>
-
-                    <div >
-                        <form onSubmit={onFormSubmit}>
-                            <div className="form-group">
-                                <input
-                                    className="form-control"
-                                    placeholder='add title.....'
-                                    type='text'
-                                    name='title'
-                                    value={addtodo.title}
-                                    onChange={handleInput}
-                                />
-                                <textarea
-                                    className="form-control"
-                                    placeholder='add notes...'
-                                    name="note"
-                                    value={addtodo.note}
-                                    onChange={handleInput}
-                                />
-                                <button className='btn btn-lg btn-success ' type='submit'>Add</button>
-                            </div>
-                        </form>
-                        <div>
-                            {allTodolist.map((elem) => {
-                                const { title, note, id } = elem
-                                return (
-                                    <div className="form-group" key={id}>
-                                        <h2>{title}</h2>
-                                        <p>{note}</p>
-                                        <button className='btn btn-warning btn-sm' onClick={() => EditItem(id)}>Edit</button>
-                                        <button className='btn btn-danger btn-sm' onClick={() => DeleteItem(id)}>Delete</button>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    </div>
-                </div>
+  };
+  return (
+    <div className="container">
+      <div className="row justify-content-center">
+        <div className="col-5 todolist_app">
+          <h2>Add TODO</h2>
+          <div>
+            <form onSubmit={onFormSubmit}>
+              <div className="form-group">
+                <input
+                  className="form-control"
+                  placeholder=" "
+                  type="text"
+                  name="title"
+                  value={addtodo}
+                  onChange={handleInput}
+                />
+                <button className="btn btn-lg addtodo btn-none" type="submit">
+                  ADD TODO
+                </button>
+              </div>
+            </form>
+            <div className="container">
+              {showlistData.map((elem, idx) => {
+                console.log(elem);
+                return (
+                  <div className="row align-items-center form-group" key={idx}>
+                    <input
+                      className="col-1 text-start"
+                      type="checkbox"
+                      name="list"
+                      onClick={taskstrikeThrough}
+                    />
+                    <label className={`col text-start ${strikeThrough}`}>
+                      {elem.data}
+                    </label>
+                    <MdDelete
+                      className="col-2 text-end delete"
+                      onClick={() => dispatch(deleteTodo(elem.id))}
+                    />
+                    <hr />
+                  </div>
+                );
+              })}
             </div>
-
-            {/* Hangout with Friends 
-call amel i haven't seen her for a while */}
+          </div>
         </div>
-
-
-    )
-}
+      </div>
+    </div>
+  );
+};

@@ -1,11 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-import { TodoForm } from './components/TodoForm';
+import logo from "./logo.svg";
+import "./App.css";
+import { Todolist } from "./components/TodoForm";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 function App() {
   return (
     <div className="App">
-      <TodoForm/>
+      <Todolist />
     </div>
   );
 }
