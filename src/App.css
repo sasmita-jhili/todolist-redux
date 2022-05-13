@@ -35,10 +35,11 @@ body {
 }
 input {
   border: none !important;
+  border-radius: 0px !important;
   border-bottom: 1px solid #888888 !important;
 }
 input:focus {
-  border-color: rgb(0, 0, 0) !important;
+  /* border-color: rgb(0, 0, 0) !important; */
   box-shadow: none !important;
 }
 .addtodo {

@@ -6,7 +6,6 @@ import { addtodoAction, deleteTodo } from "../redux/action/todoAction";
 export const Todolist = () => {
   const dispatch = useDispatch();
   const showlistData = useSelector((state) => state.TodoReducer.listData);
-  console.log(showlistData);
   const [addtodo, setAddtodo] = useState("");
 
   const [strikeThrough, setstrikeThrough] = useState([]);
